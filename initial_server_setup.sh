@@ -329,7 +329,7 @@ test_new_ssh_connection() {
     print_info "Testing SSH connection with new user '$FRAPPE_USERNAME' on port 8520"
 
     # SSH options for new connection (different port)
-    NEW_SSH_OPTS="-o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=~/.ssh/known_hosts -p 8520"
+    NEW_SSH_OPTS="-o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=~/.ssh/known_hosts -p 7016"
 
     if ssh $NEW_SSH_OPTS -o BatchMode=yes "$FRAPPE_USERNAME@$SERVER_IP" "echo 'New SSH connection successful!'" 2>/dev/null; then
         print_info "SUCCESS! Can connect as '$FRAPPE_USERNAME' on port 8520"
