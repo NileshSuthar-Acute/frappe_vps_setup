@@ -139,9 +139,13 @@ cat > ~/frappe_dependencies_completed.txt << 'MARKER'
 Frappe Dependencies Installation Completed
 ==========================================
 
-Installation Date: $(date)
-Server: $(hostname)
-User: $(whoami)
+MARKER
+
+echo "Installation Date: $(date)" >> ~/frappe_dependencies_completed.txt
+echo "Server: $(hostname)" >> ~/frappe_dependencies_completed.txt
+echo "User: $(whoami)" >> ~/frappe_dependencies_completed.txt
+
+cat >> ~/frappe_dependencies_completed.txt << 'MARKER'
 
 ✅ Installed Components:
 - System packages (git, build-essential, etc.)
