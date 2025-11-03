@@ -96,6 +96,10 @@ copy_files_to_remote() {
     ssh $SSH_OPTS -p $SSH_PORT "$FRAPPE_USERNAME@$SERVER_IP" \
         "chmod +x ~/frappe_setup_temp/dependencies_setup.sh ~/frappe_setup_temp/utils.sh"
 
+    # Make scripts executable
+    ssh $SSH_OPTS -p $SSH_PORT "$FRAPPE_USERNAME@$SERVER_IP" \
+        "sudo apt install -y dos2unix && dos2unix ~/frappe_setup_temp/dependencies_setup.sh ~/frappe_setup_temp/utils.sh"
+
     print_info "Files copied successfully"
 }
 
