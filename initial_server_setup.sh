@@ -54,7 +54,7 @@ source "$SCRIPT_DIR/utils.sh"
 CONFIG_FILE="$SCRIPT_DIR/config.yml"
 
 # SSH options to handle first-time connections and ensure reliability
-SSH_OPTS="-o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=~/.ssh/known_hosts"
+SSH_OPTS="-o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=~/.ssh/known_hosts -p 7016"
 
 # Function to load and set configuration variables
 load_setup_config() {
@@ -283,6 +283,25 @@ echo "PubkeyAuthentication yes" | sudo tee -a /etc/ssh/sshd_config
 
 echo "=== SSH Configuration Complete ==="
 echo "SSH config file updated with security settings"
+
+echo "=== Configuring firewall to allow SSH port 8520 ==="
+
+if command -v ufw >/dev/null 2>&1; then
+    echo "UFW detected, configuring firewall..."
+    sudo ufw allow 8520/tcp comment "Allow new SSH port"
+    sudo ufw delete allow 7016/tcp || true
+    sudo ufw reload || true
+    echo "✓ Firewall updated (UFW): SSH port 8520 allowed"
+elif command -v firewall-cmd >/dev/null 2>&1; then
+    echo "firewalld detected, configuring firewall..."
+    sudo firewall-cmd --permanent --add-port=8520/tcp
+    sudo firewall-cmd --permanent --remove-service=ssh || true
+    sudo firewall-cmd --reload
+    echo "✓ Firewall updated (firewalld): SSH port 8520 allowed"
+else
+    echo "⚠ No supported firewall detected (UFW or firewalld)"
+    echo "Skipping firewall configuration. Ensure port 8520 is open manually."
+fi
 
 echo "=== Restarting SSH service ==="
 echo "Restarting SSH services to apply configuration changes..."
