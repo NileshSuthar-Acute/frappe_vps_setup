@@ -4,3 +4,5 @@ This repository contains scripts and instructions to set up a Virtual Private Se
 
 NOTE:
 - assumes a fresh Ubuntu 24.04 server
+
+Go to [WIKI](https://erp.ratnaafintech.com/wiki/engineering/create-virtual-machine-ubuntu-2404)
