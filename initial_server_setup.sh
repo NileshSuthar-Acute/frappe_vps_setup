@@ -329,7 +329,7 @@ test_new_ssh_connection() {
     print_info "Testing SSH connection with new user '$FRAPPE_USERNAME' on port 8520"
 
     # SSH options for new connection (different port)
-    NEW_SSH_OPTS="-o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=~/.ssh/known_hosts -p 7016"
+    NEW_SSH_OPTS="-o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=~/.ssh/known_hosts -p 8520"
 
     if ssh $NEW_SSH_OPTS -o BatchMode=yes "$FRAPPE_USERNAME@$SERVER_IP" "echo 'New SSH connection successful!'" 2>/dev/null; then
         print_info "SUCCESS! Can connect as '$FRAPPE_USERNAME' on port 8520"
@@ -339,7 +339,7 @@ test_new_ssh_connection() {
         print_info "  - User '$FRAPPE_USERNAME' created with sudo privileges"
         print_info "  - Timezone configured to $TIMEZONE"
         print_info "  - Swap space configured to $SWAP_SIZE with optimized settings"
-        print_info "  - SSH port changed from 22 to 8520"
+        print_info "  - SSH port changed from 7016 to 8520"
         print_info "  - Root login disabled"
         print_info "  - Password authentication disabled"
         print_info "  - SSH key authentication enabled"
@@ -351,10 +351,10 @@ test_new_ssh_connection() {
         print_error "Failed to connect as '$FRAPPE_USERNAME' on port 8520"
         print_error ""
         print_error "Troubleshooting steps:"
-        print_error "  1. Check SSH service: ssh -p 22 root@$SERVER_IP 'sudo systemctl status ssh'"
-        print_error "  2. Check listening ports: ssh -p 22 root@$SERVER_IP 'sudo ss -tlnp | grep ssh'"
-        print_error "  3. Check SSH config: ssh -p 22 root@$SERVER_IP 'sudo sshd -t'"
-        print_error "  4. Manual restart: ssh -p 22 root@$SERVER_IP 'sudo systemctl restart ssh'"
+        print_error "  1. Check SSH service: ssh -p 7016 root@$SERVER_IP 'sudo systemctl status ssh'"
+        print_error "  2. Check listening ports: ssh -p 7016 root@$SERVER_IP 'sudo ss -tlnp | grep ssh'"
+        print_error "  3. Check SSH config: ssh -p 7016 root@$SERVER_IP 'sudo sshd -t'"
+        print_error "  4. Manual restart: ssh -p 7016 root@$SERVER_IP 'sudo systemctl restart ssh'"
         exit 1
     fi
 }
